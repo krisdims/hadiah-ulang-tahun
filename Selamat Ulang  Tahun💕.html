@@ -1393,6 +1393,24 @@
         }
 
         /* Screen 8 Flower Layout */
+        .flower-note-box {
+            background: rgba(28, 12, 26, 0.68);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            border-radius: 18px;
+            padding: 18px 20px;
+            margin: 14px auto 0;
+            max-width: 430px;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .flower-note-box .auto-type-sub {
+            display: block;
+            text-align: left;
+            line-height: 1.85;
+            margin: 0;
+        }
+
         .flower-wrapper {
             position: relative;
             width: 320px;
@@ -2131,7 +2149,7 @@
         <div class="admin-modal-card">
             <h3 style="color: #d4af37; text-align: center; margin-bottom: 12px; font-family: 'Cormorant Garamond';">
                 Doa & Wish 20th</h3>
-            <div id="WishList"></div>
+            <div id="adminWishList"></div>
             <div style="display: flex; gap: 10px; justify-content: center; margin-top: 15px;">
                 <button class="btn" style="background: rgba(217,83,79,0.3); color:#ff9999;"
                     onclick="clearAllWishes()">Hapus Semua</button>
@@ -2300,9 +2318,18 @@
             <!-- SCREEN 7 (GALERI FOTO) -->
             <div class="screen" id="screen7">
                 <h2 class="serif-title auto-type-title" style="color: #d4af37; font-size: 1.8em; margin-bottom: 5px;"
-                    data-text="Our Moments"></h2>
+                    data-text="The Chapters We've Lived 🤍"></h2>
                 <div class="cute-text auto-type-sub" style="font-size: 0.85em; margin-bottom: 12px;"
-                    data-text="Delapan cerita manis yang terukir bersama ✨"></div>
+                    data-text="A little journey, captured one moment at a time. ✨
+
+                    <br>Sebelum sampai di chapter ke-20,
+                    ada begitu banyak halaman kecil yang sudah kamu lewati.
+                    Ada tawa, kesibukan, perjuangan, hari-hari sederhana,
+                    dan momen-momen yang mungkin saat itu terasa biasa saja.
+
+                    <br>Tapi ketika melihatnya kembali,
+                    ternyata semuanya punya cerita.
+                    Dan inilah beberapa halaman kecil dari perjalananmu sudah jauh sampai hari ini ❤️✨"></div>
 
                 <div class="heart-gallery-8">
                     <div class="heart-grid-container">
@@ -2335,9 +2362,11 @@
             <!-- SCREEN 8 (BUNGA) -->
             <div class="screen" id="screen8">
                 <div class="final-text auto-type-title" style="font-size: 1.45em; line-height: 1.4; color: #d4af37;"
-                    data-text="&quot;Perjalanan kamu sekarang tidak sendirian lagi&quot; ✨"></div>
-                <p class="auto-type-sub" style="color: #a38d75; font-size: 0.85em; font-weight: 300; margin-top: 4px;"
-                    data-text="Aku selalu di sini mendampingi setiap langkahmu 🌹"></p>
+                    data-text="&quot;Some moments become memories,and some memories become a part of us. 🤍✨&quot; "></div>
+                <div class="flower-note-box">
+                    <p class="auto-type-sub" style="color: #c4a98b; font-size: 0.85em; font-weight: 300;"
+                        data-text="Mungkin bagi orang lain ini hanya sekumpulan foto, tapi buatku, setiap foto punya cerita dan perasaannya sendiri. Ada bagian dari perjalanan kita di dalamnya, ada versi diri kita yang pernah ada di sana, dan ada momen yang mungkin tidak akan pernah bisa terulang dengan cara yang sama.<br><br>Karena kalau suatu hari nanti kita menoleh ke belakang, aku ingin salah satu hal yang paling kita ingat adalah betapa banyak cerita kecil yang pernah kita punya bersama 🤍<br><br>And if these are only a few pages, I hope we still have many more to write together. 📖❤️🌹"></p>
+                </div>
 
                 <div class="flower-wrapper">
                     <div class="flower-stem"></div>
