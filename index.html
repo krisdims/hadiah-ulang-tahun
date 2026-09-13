@@ -12,10 +12,21 @@
         rel="stylesheet">
 
     <style>
+        :root {
+            /* Flower (screen 8) sizing — scaled together via media queries below */
+            --wrapper-size: 320px;
+            --center-size: 90px;
+            --petal-size: 72px;
+            --orbit-peak: -116px;
+            --orbit-rest: -105px;
+            --orbit-sway: -110px;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         /* Scrollbar styling */
@@ -29,6 +40,7 @@
         body {
             width: 100%;
             min-height: 100vh;
+            min-height: 100dvh;
             overflow-x: hidden;
             font-family: 'Montserrat', sans-serif;
             color: #f5e6d3;
@@ -43,6 +55,7 @@
             align-items: center;
             position: relative;
             padding: 20px 15px;
+            padding: max(20px, env(safe-area-inset-top)) max(15px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom)) max(15px, env(safe-area-inset-left));
         }
 
         body.has-photo-bg {
@@ -156,6 +169,10 @@
             animation: fadeIn 0.8s ease-out;
             transition: opacity 0.5s ease;
             width: 100%;
+            max-height: calc(100vh - 40px);
+            max-height: calc(100dvh - 40px);
+            overflow-y: auto;
+            overflow-x: hidden;
         }
 
         @keyframes fadeIn {
@@ -653,8 +670,8 @@
         /* Cake Stage & Candle Animations */
         .cake-stage {
             position: relative;
-            width: 250px;
-            height: 220px;
+            width: clamp(190px, 62vw, 250px);
+            height: clamp(168px, 55vw, 220px);
             margin: 25px auto 15px;
             display: flex;
             flex-direction: column;
@@ -722,7 +739,7 @@
         }
 
         .cake-plate {
-            width: 230px;
+            width: clamp(175px, 57vw, 230px);
             height: 14px;
             background: linear-gradient(135deg, #d4af37, #f7e7b4, #aa7c11);
             border-radius: 10px;
@@ -754,8 +771,8 @@
         }
 
         .cake-bottom {
-            width: 180px;
-            height: 65px;
+            width: clamp(136px, 45vw, 180px);
+            height: clamp(50px, 16vw, 65px);
             background: linear-gradient(to right, #4a1f35, #702f51, #4a1f35);
             border-radius: 12px 12px 0 0;
             position: relative;
@@ -799,8 +816,8 @@
         }
 
         .cake-top {
-            width: 130px;
-            height: 52px;
+            width: clamp(98px, 32vw, 130px);
+            height: clamp(40px, 13vw, 52px);
             background: linear-gradient(to right, #612745, #8a3c63, #612745);
             border-radius: 12px 12px 0 0;
             position: relative;
@@ -1413,8 +1430,9 @@
 
         .flower-wrapper {
             position: relative;
-            width: 320px;
-            height: 320px;
+            width: var(--wrapper-size);
+            height: var(--wrapper-size);
+            max-width: 100%;
             margin: 25px auto 10px;
             display: flex;
             justify-content: center;
@@ -1461,8 +1479,8 @@
 
         .flower-center {
             position: absolute;
-            width: 90px;
-            height: 90px;
+            width: var(--center-size);
+            height: var(--center-size);
             border-radius: 50%;
             border: 2px solid #d4af37;
             overflow: hidden;
@@ -1482,8 +1500,8 @@
 
         .petal-item {
             position: absolute;
-            width: 72px;
-            height: 72px;
+            width: var(--petal-size);
+            height: var(--petal-size);
             border-radius: 50% 0 50% 0;
             border: 1.5px solid rgba(212, 175, 55, 0.65);
             overflow: hidden;
@@ -1623,13 +1641,13 @@
             60% {
                 opacity: 1;
                 filter: blur(0);
-                transform: rotate(var(--ang, 0deg)) translateY(-116px) rotate(45deg) scale(1.08);
+                transform: rotate(var(--ang, 0deg)) translateY(var(--orbit-peak)) rotate(45deg) scale(1.08);
             }
 
             100% {
                 opacity: 1;
                 filter: blur(0);
-                transform: rotate(var(--ang, 0deg)) translateY(-105px) rotate(45deg) scale(1);
+                transform: rotate(var(--ang, 0deg)) translateY(var(--orbit-rest)) rotate(45deg) scale(1);
             }
         }
 
@@ -1637,11 +1655,11 @@
 
             0%,
             100% {
-                transform: rotate(var(--ang, 0deg)) translateY(-105px) rotate(45deg) scale(1);
+                transform: rotate(var(--ang, 0deg)) translateY(var(--orbit-rest)) rotate(45deg) scale(1);
             }
 
             50% {
-                transform: rotate(var(--ang, 0deg)) translateY(-110px) rotate(48deg) scale(1.025);
+                transform: rotate(var(--ang, 0deg)) translateY(var(--orbit-sway)) rotate(48deg) scale(1.025);
             }
         }
 
@@ -2082,6 +2100,172 @@
 
             75% {
                 transform: translateY(-3px) rotate(4deg);
+            }
+        }
+
+        /* =====================================================
+           RESPONSIVE ADJUSTMENTS
+           Base styles above are tuned for a ~400-520px phone
+           card. Below we scale things down for very small
+           Android phones and up for tablets/laptops.
+        ===================================================== */
+
+        /* Small Android phones (iPhone SE, older/compact Android ~360px and under) */
+        @media (max-width: 380px) {
+            :root {
+                --wrapper-size: 250px;
+                --center-size: 68px;
+                --petal-size: 54px;
+                --orbit-peak: -90px;
+                --orbit-rest: -82px;
+                --orbit-sway: -86px;
+            }
+
+            body {
+                padding: 14px 10px;
+            }
+
+            .intro-title {
+                font-size: 1.7em;
+            }
+
+            .roman-num {
+                font-size: 1.9em;
+            }
+
+            .intro-badge {
+                width: 70px;
+                height: 70px;
+            }
+
+            .letter-content {
+                padding: 18px 16px;
+                max-height: 300px;
+            }
+
+            .heart-grid-container {
+                max-width: 300px;
+                gap: 6px;
+            }
+
+            .keypad {
+                max-width: 230px;
+                gap: 8px;
+            }
+
+            .key {
+                padding: 10px;
+            }
+
+            .final-text {
+                font-size: 1.25em;
+            }
+
+            .btn {
+                padding: 11px 20px;
+                font-size: 0.78em;
+            }
+
+            .nav-btn {
+                padding: 7px 10px;
+                font-size: 0.72em;
+            }
+
+            .letter-photo-frame {
+                width: 90px;
+                height: 90px;
+            }
+        }
+
+        /* Very narrow / short devices — trim vertical rhythm so content
+           doesn't get clipped above the scrolling .card */
+        @media (max-height: 680px) {
+            .cake-stage {
+                margin: 12px auto 8px;
+            }
+
+            .flower-wrapper {
+                margin: 12px auto 6px;
+            }
+
+            .letter-content {
+                max-height: 42vh;
+            }
+        }
+
+        /* Landscape phones — the flower/cake scenes are tall, so shrink
+           them further when height is tight */
+        @media (max-height: 480px) and (orientation: landscape) {
+            :root {
+                --wrapper-size: 220px;
+                --center-size: 60px;
+                --petal-size: 48px;
+                --orbit-peak: -80px;
+                --orbit-rest: -72px;
+                --orbit-sway: -76px;
+            }
+
+            .card {
+                max-height: calc(100dvh - 20px);
+            }
+
+            .cake-stage {
+                width: clamp(150px, 40vh, 250px);
+                height: clamp(130px, 34vh, 220px);
+            }
+        }
+
+        /* Tablets and small laptops — give the card a bit more breathing
+           room and a touch more presence instead of looking stretched */
+        @media (min-width: 640px) {
+            .container {
+                max-width: 560px;
+            }
+
+            .card {
+                padding: 28px 24px;
+                background: rgba(18, 6, 19, 0.28);
+                border: 1px solid rgba(212, 175, 55, 0.18);
+                border-radius: 28px;
+                box-shadow: 0 25px 70px rgba(0, 0, 0, 0.45);
+                /* NOTE: no backdrop-filter/filter/transform here on purpose —
+                   any of those on an ancestor of .btn-moving turns this box
+                   into the containing block for position:fixed elements,
+                   which clips/misplaces the "Belum siap" button on
+                   desktop widths. Keep this rule filter-free. */
+            }
+
+            :root {
+                --wrapper-size: 340px;
+                --center-size: 96px;
+                --petal-size: 76px;
+                --orbit-peak: -124px;
+                --orbit-rest: -112px;
+                --orbit-sway: -117px;
+            }
+        }
+
+        /* Laptops / desktops — keep the experience centered as a phone-
+           width "card" rather than stretching everything full width,
+           which is what makes these pages look broken on large screens */
+        @media (min-width: 1024px) {
+            .container {
+                max-width: 480px;
+            }
+
+            .card {
+                padding: 34px 30px;
+            }
+
+            body {
+                padding: 40px 20px;
+            }
+        }
+
+        /* Fallback for browsers without dvh support */
+        @supports not (height: 100dvh) {
+            html, body {
+                min-height: 100vh;
             }
         }
     </style>
@@ -2913,13 +3097,13 @@
             const titleEl = screenEl.querySelector('.auto-type-title');
             const subEl = screenEl.querySelector('.auto-type-sub');
             if (titleEl && titleEl.dataset.text) {
-                typeTextElement(titleEl, titleEl.dataset.text, 35, () => {
+                typeTextElement(titleEl, titleEl.dataset.text, 60, () => {
                     if (subEl && subEl.dataset.text) {
-                        typeTextElement(subEl, subEl.dataset.text, 25);
+                        typeTextElement(subEl, subEl.dataset.text, 45);
                     }
                 });
             } else if (subEl && subEl.dataset.text) {
-                typeTextElement(subEl, subEl.dataset.text, 25);
+                typeTextElement(subEl, subEl.dataset.text, 45);
             }
         }
 
@@ -2951,11 +3135,11 @@
                         pElement.textContent = fullText.substring(0, charIndex);
                         charIndex++;
                         scrollBox.scrollTop = scrollBox.scrollHeight;
-                        typingTimeout = setTimeout(typeChar, 20);
+                        typingTimeout = setTimeout(typeChar, 38);
                     } else {
                         pElement.innerHTML = rawHTML.replace(/^<p[^>]*>/, '').replace(/<\/p>$/, '');
                         currentParaIndex++;
-                        typingTimeout = setTimeout(typeNextParagraph, 280);
+                        typingTimeout = setTimeout(typeNextParagraph, 500);
                     }
                 }
                 typeChar();
@@ -2967,7 +3151,7 @@
             const giftContainer = document.getElementById('typedGiftText');
             if (!giftContainer) return;
             const fullGiftHTML = '<strong style="color: #d4af37; font-size: 1.1em; font-family: \'Cormorant Garamond\', serif;">GOLDEN VOUCHER</strong><br> Permintaan Spesial / Date Night Apapun Yang Kamu Inginkan.<br><span style="font-style: italic; color: #a38d75; font-size: 0.82em;">Valid Forever &amp; Unlimited Loyalty 💕</span>';
-            typeTextElement(giftContainer, fullGiftHTML, 25);
+            typeTextElement(giftContainer, fullGiftHTML, 45);
         }
 
         function cancelPresentIntro() {
