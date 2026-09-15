@@ -59,11 +59,34 @@
         }
 
         body.has-photo-bg {
-            background: linear-gradient(rgba(18, 6, 19, 0.75), rgba(18, 6, 19, 0.75)), url('bah.jpg') center/cover no-repeat fixed !important;
+            background: linear-gradient(rgba(18, 6, 19, 0.75), rgba(18, 6, 19, 0.75)), url('bah.jpg') !important;
+            background-repeat: no-repeat !important;
+            background-position: center center !important;
+            background-size: cover !important;
+            background-attachment: fixed !important;
         }
 
         body.after-curtain-bg {
-            background: linear-gradient(rgba(18, 6, 19, 0.75), rgba(18, 6, 19, 0.75)), url('Bahan.jpg') center/cover no-repeat fixed !important;
+            background: linear-gradient(rgba(18, 6, 19, 0.75), rgba(18, 6, 19, 0.75)), url('Bahan.jpg') !important;
+            background-repeat: no-repeat !important;
+            background-position: center center !important;
+            background-size: cover !important;
+            background-attachment: fixed !important;
+        }
+
+        /* background-attachment: fixed is unreliable on mobile browsers
+           (iOS Safari especially) — it can make the photo look zoomed/
+           cropped or cause repaint jank while scrolling/typing. On touch
+           devices and narrow screens we fall back to a normal scrolling
+           background, which renders the same cover/center sizing but
+           without the parallax-pinning behaviour. */
+        @media (max-width: 780px),
+        (hover: none) and (pointer: coarse) {
+
+            body.has-photo-bg,
+            body.after-curtain-bg {
+                background-attachment: scroll !important;
+            }
         }
 
         .bg-pattern {
@@ -110,16 +133,16 @@
         }
 
         .photo-bg-1 {
-            width: 90px;
-            height: 90px;
+            width: clamp(52px, 16vw, 90px);
+            height: clamp(52px, 16vw, 90px);
             top: 15%;
             left: 4%;
             animation: floatPhoto1 18s infinite ease-in-out alternate;
         }
 
         .photo-bg-2 {
-            width: 110px;
-            height: 110px;
+            width: clamp(62px, 20vw, 110px);
+            height: clamp(62px, 20vw, 110px);
             bottom: 12%;
             right: 4%;
             animation: floatPhoto2 22s infinite ease-in-out alternate;
@@ -2175,6 +2198,12 @@
                 width: 90px;
                 height: 90px;
             }
+
+            /* keep the decorative floating photos small and subtle so they
+               don't crowd the compact card on tiny screens */
+            .bg-moving-photo {
+                opacity: 0.22;
+            }
         }
 
         /* Very narrow / short devices — trim vertical rhythm so content
@@ -2260,13 +2289,118 @@
             body {
                 padding: 40px 20px;
             }
+
+            /* on wide laptop screens there's a lot of empty space around
+               the centered card, so the decorative floating photos can
+               afford to be a bit larger and more visible */
+            .photo-bg-1 {
+                width: 130px;
+                height: 130px;
+            }
+
+            .photo-bg-2 {
+                width: 150px;
+                height: 150px;
+            }
         }
 
         /* Fallback for browsers without dvh support */
         @supports not (height: 100dvh) {
-            html, body {
+
+            html,
+            body {
                 min-height: 100vh;
             }
+        }
+
+        /* =====================================================
+           OPENING COUNTDOWN (plays once, right when the page loads,
+           before the intro screen's own typing/firework animation)
+        ===================================================== */
+        .countdown-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            background: radial-gradient(circle at center, #230c18 0%, #12050e 65%, #0a0208 100%);
+            z-index: 1000000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            opacity: 1;
+            transition: opacity 0.55s ease;
+        }
+
+        .countdown-overlay.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .countdown-ring {
+            width: clamp(96px, 26vw, 132px);
+            height: clamp(96px, 26vw, 132px);
+            border-radius: 50%;
+            border: 2px solid rgba(212, 175, 55, 0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 35px rgba(212, 175, 55, 0.25), inset 0 0 18px rgba(212, 175, 55, 0.15);
+            animation: countdownRingPulse 1s ease-in-out infinite;
+        }
+
+        @keyframes countdownRingPulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 35px rgba(212, 175, 55, 0.25), inset 0 0 18px rgba(212, 175, 55, 0.15);
+            }
+
+            50% {
+                box-shadow: 0 0 50px rgba(212, 175, 55, 0.5), inset 0 0 25px rgba(212, 175, 55, 0.3);
+            }
+        }
+
+        .countdown-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.2em, 8vw, 3.2em);
+            color: #d4af37;
+            font-weight: 600;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+            display: inline-block;
+        }
+
+        .countdown-number.pop {
+            animation: countdownPop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes countdownPop {
+            0% {
+                opacity: 0;
+                transform: scale(0.4) rotate(-8deg);
+            }
+
+            60% {
+                opacity: 1;
+                transform: scale(1.25) rotate(3deg);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        .countdown-label {
+            color: #c4a98b;
+            font-size: 0.82em;
+            letter-spacing: 2px;
+            font-weight: 300;
+            text-transform: uppercase;
+            opacity: 0.85;
         }
     </style>
 </head>
@@ -2276,6 +2410,14 @@
     <audio id="bgAudio" loop preload="auto">
         <source src="music.mp3" type="audio/mpeg">
     </audio>
+
+    <!-- OPENING COUNTDOWN -->
+    <div class="countdown-overlay" id="countdownOverlay">
+        <div class="countdown-ring">
+            <span class="countdown-number" id="countdownNumber">3</span>
+        </div>
+        <div class="countdown-label" id="countdownLabel">Menyiapkan kejutan...</div>
+    </div>
 
     <div class="floating-music-control" id="musicBadge">
         <span class="disc-icon">🎵</span>
@@ -2482,7 +2624,8 @@
                 <div id="giftSection" style="display: none; margin-top: 10px;">
                     <div class="gift-box">🎁</div>
                     <div class="final-text">The 20th Chapter Privilege</div>
-                    <div class="cute-text" style="font-size: 0.9em;">Sebuah apresiasi kecil spesial untuk ulang tahunmu 💫
+                    <div class="cute-text" style="font-size: 0.9em;">Sebuah apresiasi kecil spesial untuk ulang tahunmu
+                        💫
                     </div>
                     <div class="photo-frame">
                         <div style="font-size: 28px; margin-bottom: 10px;">✨</div>
@@ -2503,8 +2646,7 @@
             <div class="screen" id="screen7">
                 <h2 class="serif-title auto-type-title" style="color: #d4af37; font-size: 1.8em; margin-bottom: 5px;"
                     data-text="The Chapters We've Lived 🤍"></h2>
-                <div class="cute-text auto-type-sub" style="font-size: 0.85em; margin-bottom: 12px;"
-                    data-text="A little journey, captured one moment at a time. ✨
+                <div class="cute-text auto-type-sub" style="font-size: 0.85em; margin-bottom: 12px;" data-text="A little journey, captured one moment at a time. ✨
 
                     <br>Sebelum sampai di chapter ke-20,
                     ada begitu banyak halaman kecil yang sudah kamu lewati.
@@ -2546,10 +2688,12 @@
             <!-- SCREEN 8 (BUNGA) -->
             <div class="screen" id="screen8">
                 <div class="final-text auto-type-title" style="font-size: 1.45em; line-height: 1.4; color: #d4af37;"
-                    data-text="&quot;Some moments become memories,and some memories become a part of us. 🤍✨&quot; "></div>
+                    data-text="&quot;Some moments become memories,and some memories become a part of us. 🤍✨&quot; ">
+                </div>
                 <div class="flower-note-box">
                     <p class="auto-type-sub" style="color: #c4a98b; font-size: 0.85em; font-weight: 300;"
-                        data-text="Mungkin bagi orang lain ini hanya sekumpulan foto, tapi buatku, setiap foto punya cerita dan perasaannya sendiri. Ada bagian dari perjalanan kita di dalamnya, ada versi diri kita yang pernah ada di sana, dan ada momen yang mungkin tidak akan pernah bisa terulang dengan cara yang sama.<br><br>Karena kalau suatu hari nanti kita menoleh ke belakang, aku ingin salah satu hal yang paling kita ingat adalah betapa banyak cerita kecil yang pernah kita punya bersama 🤍<br><br>And if these are only a few pages, I hope we still have many more to write together. 📖❤️🌹"></p>
+                        data-text="Mungkin bagi orang lain ini hanya sekumpulan foto, tapi buatku, setiap foto punya cerita dan perasaannya sendiri. Ada bagian dari perjalanan kita di dalamnya, ada versi diri kita yang pernah ada di sana, dan ada momen yang mungkin tidak akan pernah bisa terulang dengan cara yang sama.<br><br>Karena kalau suatu hari nanti kita menoleh ke belakang, aku ingin salah satu hal yang paling kita ingat adalah betapa banyak cerita kecil yang pernah kita punya bersama 🤍<br><br>And if these are only a few pages, I hope we still have many more to write together. 📖❤️🌹">
+                    </p>
                 </div>
 
                 <div class="flower-wrapper">
@@ -3569,12 +3713,8 @@
             }
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
+        function beginIntroSequence() {
             triggerPageTypingAnimation(document.getElementById('screenIntro'));
-
-            document.querySelectorAll('.btn, .nav-btn, .key').forEach(el => {
-                el.addEventListener('mouseenter', () => playHoverTickSound());
-            });
 
             launchFirework();
             setInterval(() => {
@@ -3583,6 +3723,70 @@
                     launchFirework();
                 }
             }, 950);
+        }
+
+        function playCountdownTickSound(isFinal = false) {
+            try {
+                initAudioCtx();
+                const now = audioCtx.currentTime;
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(isFinal ? 1046.5 : 740, now);
+                gain.gain.setValueAtTime(0.001, now);
+                gain.gain.linearRampToValueAtTime(isFinal ? 0.22 : 0.16, now + 0.02);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + (isFinal ? 0.4 : 0.18));
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(now);
+                osc.stop(now + (isFinal ? 0.42 : 0.2));
+            } catch (e) { console.log(e); }
+        }
+
+        function runOpeningCountdown(onComplete) {
+            const overlay = document.getElementById('countdownOverlay');
+            const numberEl = document.getElementById('countdownNumber');
+            const labelEl = document.getElementById('countdownLabel');
+
+            if (!overlay || !numberEl) {
+                onComplete();
+                return;
+            }
+
+            const steps = ['3', '2', '1', '✨'];
+            let i = 0;
+
+            function showStep() {
+                if (i >= steps.length) {
+                    overlay.classList.add('fade-out');
+                    setTimeout(() => {
+                        overlay.style.display = 'none';
+                        onComplete();
+                    }, 550);
+                    return;
+                }
+
+                const isFinal = i === steps.length - 1;
+                numberEl.textContent = steps[i];
+                numberEl.classList.remove('pop');
+                void numberEl.offsetWidth; /* restart animation */
+                numberEl.classList.add('pop');
+                if (labelEl) {
+                    labelEl.textContent = isFinal ? 'Selamat malam✨' : 'Menyiapkan kejutan...';
+                }
+                playCountdownTickSound(isFinal);
+
+                i++;
+                setTimeout(showStep, isFinal ? 750 : 700);
+            }
+
+            showStep();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.btn, .nav-btn, .key').forEach(el => {
+                el.addEventListener('mouseenter', () => playHoverTickSound());
+            });
 
             const galleryImages = document.querySelectorAll('#screen7 .heart-cell img, #screen8 .flower-wrapper img');
             galleryImages.forEach(img => {
@@ -3594,7 +3798,10 @@
                     openPhotoModal(img.src);
                 });
             });
+
+            runOpeningCountdown(beginIntroSequence);
         });
     </script>
 </body>
+
 </html>
