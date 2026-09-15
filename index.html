@@ -80,7 +80,8 @@
            devices and narrow screens we fall back to a normal scrolling
            background, which renders the same cover/center sizing but
            without the parallax-pinning behaviour. */
-        @media (max-width: 780px), (hover: none) and (pointer: coarse) {
+        @media (max-width: 780px),
+        (hover: none) and (pointer: coarse) {
 
             body.has-photo-bg,
             body.after-curtain-bg {
@@ -2305,10 +2306,13 @@
 
         /* Fallback for browsers without dvh support */
         @supports not (height: 100dvh) {
-            html, body {
+
+            html,
+            body {
                 min-height: 100vh;
             }
         }
+
         /* =====================================================
            OPENING COUNTDOWN (plays once, right when the page loads,
            before the intro screen's own typing/firework animation)
@@ -2497,7 +2501,6 @@
                 opacity: 0;
             }
         }
-
     </style>
 </head>
 
@@ -2672,20 +2675,22 @@
                 <div class="illustration" style="font-size: 55px; margin-bottom: 10px;">💌</div>
                 <h2 class="serif-title auto-type-title" style="color: #d4af37; font-size: 0.88em;"
                     data-text="A Letter For You"></h2>
-                <h2>Sayang, sebelum lanjut... aku cuma mau kamu tahu, ada banyak hal tentang kamu yang selalu aku banggakan. 🤍
-                
-                <br>Mungkin aku nggak selalu pandai mengungkapkannya lewat kata-kata,
-                jadi kali ini aku mencoba menyampaikannya lewat sesuatu yang sederhana ini.
-                
-                <br>Maaf kalau yang bisa aku persembahkan untuk kamu kali ini
-                masih jauh dari apa yang sebenarnya ingin aku berikan.
-                Aku mungkin belum bisa memberikan sesuatu yang luar biasa,
-                tapi semua yang ada di sini aku buat dengan hati,
-                dengan harapan kecil supaya kamu bisa merasakan
-                betapa berartinya kamu buat aku. 🥹❤️
-                
-                <br>So, this little letter is for you.
-                <br>Baca pelan-pelan yaa, sayang... 🤍</h2>
+                <h2>Sayang, sebelum lanjut... aku cuma mau kamu tahu, ada banyak hal tentang kamu yang selalu aku
+                    banggakan. 🤍
+
+                    <br>Mungkin aku nggak selalu pandai mengungkapkannya lewat kata-kata,
+                    jadi kali ini aku mencoba menyampaikannya lewat sesuatu yang sederhana ini.
+
+                    <br>Maaf kalau yang bisa aku persembahkan untuk kamu kali ini
+                    masih jauh dari apa yang sebenarnya ingin aku berikan.
+                    Aku mungkin belum bisa memberikan sesuatu yang luar biasa,
+                    tapi semua yang ada di sini aku buat dengan hati,
+                    dengan harapan kecil supaya kamu bisa merasakan
+                    betapa berartinya kamu buat aku. 🥹❤️
+
+                    <br>So, this little letter is for you.
+                    <br>Baca pelan-pelan yaa, sayang... 🤍
+                </h2>
                 <div class="cute-text auto-type-sub" data-text="Sudah siap?🤨"></div>
                 <div style="margin-top: 20px;">
                     <button class="btn" onclick="startAndOpenLetter()">Siap Banget🤗</button>
@@ -2749,7 +2754,8 @@
                 <div id="giftSection" style="display: none; margin-top: 10px;">
                     <div class="gift-box">🎁</div>
                     <div class="final-text">The 20th Chapter Privilege</div>
-                    <div class="cute-text" style="font-size: 0.9em;">Sebuah apresiasi kecil spesial untuk ulang tahunmu 💫
+                    <div class="cute-text" style="font-size: 0.9em;">Sebuah apresiasi kecil spesial untuk ulang tahunmu
+                        💫
                     </div>
                     <div class="photo-frame">
                         <div style="font-size: 28px; margin-bottom: 10px;">✨</div>
@@ -2770,8 +2776,7 @@
             <div class="screen" id="screen7">
                 <h2 class="serif-title auto-type-title" style="color: #d4af37; font-size: 1.8em; margin-bottom: 5px;"
                     data-text="The Chapters We've Lived 🤍"></h2>
-                <div class="cute-text auto-type-sub" style="font-size: 0.85em; margin-bottom: 12px;"
-                    data-text="A little journey, captured one moment at a time. ✨
+                <div class="cute-text auto-type-sub" style="font-size: 0.85em; margin-bottom: 12px;" data-text="A little journey, captured one moment at a time. ✨
 
                     <br>Sebelum sampai di chapter ke-20,
                     ada begitu banyak halaman kecil yang sudah kamu lewati.
@@ -2813,10 +2818,12 @@
             <!-- SCREEN 8 (BUNGA) -->
             <div class="screen" id="screen8">
                 <div class="final-text auto-type-title" style="font-size: 1.45em; line-height: 1.4; color: #d4af37;"
-                    data-text="&quot;Some moments become memories,and some memories become a part of us. 🤍✨&quot; "></div>
+                    data-text="&quot;Some moments become memories,and some memories become a part of us. 🤍✨&quot; ">
+                </div>
                 <div class="flower-note-box">
                     <p class="auto-type-sub" style="color: #c4a98b; font-size: 0.85em; font-weight: 300;"
-                        data-text="Mungkin bagi orang lain ini hanya sekumpulan foto, tapi buatku, setiap foto punya cerita dan perasaannya sendiri. Ada bagian dari perjalanan kita di dalamnya, ada versi diri kita yang pernah ada di sana, dan ada momen yang mungkin tidak akan pernah bisa terulang dengan cara yang sama.<br><br>Karena kalau suatu hari nanti kita menoleh ke belakang, aku ingin salah satu hal yang paling kita ingat adalah betapa banyak cerita kecil yang pernah kita punya bersama 🤍<br><br>And if these are only a few pages, I hope we still have many more to write together. 📖❤️🌹"></p>
+                        data-text="Mungkin bagi orang lain ini hanya sekumpulan foto, tapi buatku, setiap foto punya cerita dan perasaannya sendiri. Ada bagian dari perjalanan kita di dalamnya, ada versi diri kita yang pernah ada di sana, dan ada momen yang mungkin tidak akan pernah bisa terulang dengan cara yang sama.<br><br>Karena kalau suatu hari nanti kita menoleh ke belakang, aku ingin salah satu hal yang paling kita ingat adalah betapa banyak cerita kecil yang pernah kita punya bersama 🤍<br><br>And if these are only a few pages, I hope we still have many more to write together. 📖❤️🌹">
+                    </p>
                 </div>
 
                 <div class="flower-wrapper">
@@ -4009,4 +4016,5 @@
         });
     </script>
 </body>
+
 </html>
