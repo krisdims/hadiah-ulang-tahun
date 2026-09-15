@@ -80,8 +80,7 @@
            devices and narrow screens we fall back to a normal scrolling
            background, which renders the same cover/center sizing but
            without the parallax-pinning behaviour. */
-        @media (max-width: 780px),
-        (hover: none) and (pointer: coarse) {
+        @media (max-width: 780px), (hover: none) and (pointer: coarse) {
 
             body.has-photo-bg,
             body.after-curtain-bg {
@@ -2306,13 +2305,10 @@
 
         /* Fallback for browsers without dvh support */
         @supports not (height: 100dvh) {
-
-            html,
-            body {
+            html, body {
                 min-height: 100vh;
             }
         }
-
         /* =====================================================
            OPENING COUNTDOWN (plays once, right when the page loads,
            before the intro screen's own typing/firework animation)
@@ -2340,57 +2336,96 @@
             pointer-events: none;
         }
 
-        .countdown-ring {
-            width: clamp(96px, 26vw, 132px);
-            height: clamp(96px, 26vw, 132px);
-            border-radius: 50%;
-            border: 2px solid rgba(212, 175, 55, 0.45);
+        .countdown-timer {
             display: flex;
+            align-items: flex-start;
+            gap: clamp(4px, 1.5vw, 10px);
+        }
+
+        .countdown-segment {
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 35px rgba(212, 175, 55, 0.25), inset 0 0 18px rgba(212, 175, 55, 0.15);
-            animation: countdownRingPulse 1s ease-in-out infinite;
+            min-width: clamp(48px, 13vw, 64px);
+            padding: 10px 4px;
+            border-radius: 14px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.18), inset 0 0 14px rgba(212, 175, 55, 0.1);
         }
 
-        @keyframes countdownRingPulse {
-
-            0%,
-            100% {
-                box-shadow: 0 0 35px rgba(212, 175, 55, 0.25), inset 0 0 18px rgba(212, 175, 55, 0.15);
-            }
-
-            50% {
-                box-shadow: 0 0 50px rgba(212, 175, 55, 0.5), inset 0 0 25px rgba(212, 175, 55, 0.3);
-            }
-        }
-
-        .countdown-number {
+        .countdown-value {
             font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(2.2em, 8vw, 3.2em);
+            font-size: clamp(1.7em, 6.5vw, 2.5em);
             color: #d4af37;
             font-weight: 600;
             text-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+            line-height: 1;
             display: inline-block;
         }
 
-        .countdown-number.pop {
-            animation: countdownPop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+        .countdown-value.pop {
+            animation: countdownPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         @keyframes countdownPop {
             0% {
-                opacity: 0;
-                transform: scale(0.4) rotate(-8deg);
+                opacity: 0.3;
+                transform: scale(0.6) rotate(-6deg);
             }
 
             60% {
                 opacity: 1;
-                transform: scale(1.25) rotate(3deg);
+                transform: scale(1.18) rotate(2deg);
             }
 
             100% {
                 opacity: 1;
                 transform: scale(1) rotate(0deg);
+            }
+        }
+
+        .countdown-unit {
+            margin-top: 5px;
+            font-size: 0.6em;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #c4a98b;
+            opacity: 0.85;
+        }
+
+        .countdown-colon {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.4em, 5vw, 2em);
+            color: rgba(212, 175, 55, 0.45);
+            align-self: center;
+            padding-bottom: 20px;
+        }
+
+        .countdown-timer.exploding {
+            animation: countdownShake 0.4s ease-in-out;
+        }
+
+        @keyframes countdownShake {
+
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+
+            20% {
+                transform: translate(-6px, 2px);
+            }
+
+            40% {
+                transform: translate(6px, -2px);
+            }
+
+            60% {
+                transform: translate(-4px, 3px);
+            }
+
+            80% {
+                transform: translate(4px, -3px);
             }
         }
 
@@ -2401,7 +2436,68 @@
             font-weight: 300;
             text-transform: uppercase;
             opacity: 0.85;
+            text-align: center;
+            padding: 0 10px;
         }
+
+        /* ===== Launch explosion effect ===== */
+        .explosion-flash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at center, rgba(255, 250, 230, 0.95) 0%, rgba(212, 175, 55, 0.55) 32%, rgba(212, 175, 55, 0) 70%);
+            pointer-events: none;
+            z-index: 6;
+            animation: explosionFlashPop 0.75s ease-out forwards;
+        }
+
+        @keyframes explosionFlashPop {
+            0% {
+                opacity: 0;
+            }
+
+            12% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .explosion-shockwave {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin: -10px 0 0 -10px;
+            border-radius: 50%;
+            border: 2px solid rgba(212, 175, 55, 0.85);
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.6);
+            pointer-events: none;
+            z-index: 6;
+            animation: explosionShockwaveExpand 0.9s cubic-bezier(0.15, 0.7, 0.3, 1) forwards;
+        }
+
+        @keyframes explosionShockwaveExpand {
+            0% {
+                width: 20px;
+                height: 20px;
+                margin: -10px 0 0 -10px;
+                opacity: 0.9;
+            }
+
+            100% {
+                width: 140vw;
+                height: 140vw;
+                margin: -70vw 0 0 -70vw;
+                opacity: 0;
+            }
+        }
+
     </style>
 </head>
 
@@ -2413,10 +2509,28 @@
 
     <!-- OPENING COUNTDOWN -->
     <div class="countdown-overlay" id="countdownOverlay">
-        <div class="countdown-ring">
-            <span class="countdown-number" id="countdownNumber">3</span>
+        <div class="countdown-timer" id="countdownTimer">
+            <div class="countdown-segment">
+                <span class="countdown-value" id="cdDays">00</span>
+                <span class="countdown-unit">Hari</span>
+            </div>
+            <span class="countdown-colon">:</span>
+            <div class="countdown-segment">
+                <span class="countdown-value" id="cdHours">00</span>
+                <span class="countdown-unit">Jam</span>
+            </div>
+            <span class="countdown-colon">:</span>
+            <div class="countdown-segment">
+                <span class="countdown-value" id="cdMinutes">00</span>
+                <span class="countdown-unit">Menit</span>
+            </div>
+            <span class="countdown-colon">:</span>
+            <div class="countdown-segment">
+                <span class="countdown-value" id="cdSeconds">00</span>
+                <span class="countdown-unit">Detik</span>
+            </div>
         </div>
-        <div class="countdown-label" id="countdownLabel">Menyiapkan kejutan...</div>
+        <div class="countdown-label" id="countdownLabel">Menghitung mundur ke 16 September 2026...</div>
     </div>
 
     <div class="floating-music-control" id="musicBadge">
@@ -2558,9 +2672,20 @@
                 <div class="illustration" style="font-size: 55px; margin-bottom: 10px;">💌</div>
                 <h2 class="serif-title auto-type-title" style="color: #d4af37; font-size: 0.88em;"
                     data-text="A Letter For You"></h2>
-                <h2>Sayang, sebelum lanjut... aku cuma mau sayang tau, ada banyak hal tentang sayangg yang selalu aku
-                    banggakan.
-                    So, this little letter is for you. Baca pelan-pelan yaa...🤍</h2>
+                <h2>Sayang, sebelum lanjut... aku cuma mau kamu tahu, ada banyak hal tentang kamu yang selalu aku banggakan. 🤍
+                
+                <br>Mungkin aku nggak selalu pandai mengungkapkannya lewat kata-kata,
+                jadi kali ini aku mencoba menyampaikannya lewat sesuatu yang sederhana ini.
+                
+                <br>Maaf kalau yang bisa aku persembahkan untuk kamu kali ini
+                masih jauh dari apa yang sebenarnya ingin aku berikan.
+                Aku mungkin belum bisa memberikan sesuatu yang luar biasa,
+                tapi semua yang ada di sini aku buat dengan hati,
+                dengan harapan kecil supaya kamu bisa merasakan
+                betapa berartinya kamu buat aku. 🥹❤️
+                
+                <br>So, this little letter is for you.
+                <br>Baca pelan-pelan yaa, sayang... 🤍</h2>
                 <div class="cute-text auto-type-sub" data-text="Sudah siap?🤨"></div>
                 <div style="margin-top: 20px;">
                     <button class="btn" onclick="startAndOpenLetter()">Siap Banget🤗</button>
@@ -2624,8 +2749,7 @@
                 <div id="giftSection" style="display: none; margin-top: 10px;">
                     <div class="gift-box">🎁</div>
                     <div class="final-text">The 20th Chapter Privilege</div>
-                    <div class="cute-text" style="font-size: 0.9em;">Sebuah apresiasi kecil spesial untuk ulang tahunmu
-                        💫
+                    <div class="cute-text" style="font-size: 0.9em;">Sebuah apresiasi kecil spesial untuk ulang tahunmu 💫
                     </div>
                     <div class="photo-frame">
                         <div style="font-size: 28px; margin-bottom: 10px;">✨</div>
@@ -2646,7 +2770,8 @@
             <div class="screen" id="screen7">
                 <h2 class="serif-title auto-type-title" style="color: #d4af37; font-size: 1.8em; margin-bottom: 5px;"
                     data-text="The Chapters We've Lived 🤍"></h2>
-                <div class="cute-text auto-type-sub" style="font-size: 0.85em; margin-bottom: 12px;" data-text="A little journey, captured one moment at a time. ✨
+                <div class="cute-text auto-type-sub" style="font-size: 0.85em; margin-bottom: 12px;"
+                    data-text="A little journey, captured one moment at a time. ✨
 
                     <br>Sebelum sampai di chapter ke-20,
                     ada begitu banyak halaman kecil yang sudah kamu lewati.
@@ -2688,12 +2813,10 @@
             <!-- SCREEN 8 (BUNGA) -->
             <div class="screen" id="screen8">
                 <div class="final-text auto-type-title" style="font-size: 1.45em; line-height: 1.4; color: #d4af37;"
-                    data-text="&quot;Some moments become memories,and some memories become a part of us. 🤍✨&quot; ">
-                </div>
+                    data-text="&quot;Some moments become memories,and some memories become a part of us. 🤍✨&quot; "></div>
                 <div class="flower-note-box">
                     <p class="auto-type-sub" style="color: #c4a98b; font-size: 0.85em; font-weight: 300;"
-                        data-text="Mungkin bagi orang lain ini hanya sekumpulan foto, tapi buatku, setiap foto punya cerita dan perasaannya sendiri. Ada bagian dari perjalanan kita di dalamnya, ada versi diri kita yang pernah ada di sana, dan ada momen yang mungkin tidak akan pernah bisa terulang dengan cara yang sama.<br><br>Karena kalau suatu hari nanti kita menoleh ke belakang, aku ingin salah satu hal yang paling kita ingat adalah betapa banyak cerita kecil yang pernah kita punya bersama 🤍<br><br>And if these are only a few pages, I hope we still have many more to write together. 📖❤️🌹">
-                    </p>
+                        data-text="Mungkin bagi orang lain ini hanya sekumpulan foto, tapi buatku, setiap foto punya cerita dan perasaannya sendiri. Ada bagian dari perjalanan kita di dalamnya, ada versi diri kita yang pernah ada di sana, dan ada momen yang mungkin tidak akan pernah bisa terulang dengan cara yang sama.<br><br>Karena kalau suatu hari nanti kita menoleh ke belakang, aku ingin salah satu hal yang paling kita ingat adalah betapa banyak cerita kecil yang pernah kita punya bersama 🤍<br><br>And if these are only a few pages, I hope we still have many more to write together. 📖❤️🌹"></p>
                 </div>
 
                 <div class="flower-wrapper">
@@ -3743,44 +3866,127 @@
             } catch (e) { console.log(e); }
         }
 
+        function triggerLaunchExplosion(overlay, labelEl, timerEl, onComplete) {
+            try { playDrumRollSound(); } catch (e) { console.log(e); }
+            if (labelEl) labelEl.textContent = 'Waktunya tiba! ✨';
+            if (timerEl) timerEl.classList.add('exploding');
+
+            const flash = document.createElement('div');
+            flash.className = 'explosion-flash';
+            overlay.appendChild(flash);
+
+            const shockwave = document.createElement('div');
+            shockwave.className = 'explosion-shockwave';
+            overlay.appendChild(shockwave);
+
+            setTimeout(() => {
+                try { playFireworkSound(1); } catch (e) { console.log(e); }
+                try { if (navigator.vibrate) navigator.vibrate([40, 60, 40]); } catch (e) { console.log(e); }
+
+                const colors = ['#d4af37', '#ff6b81', '#ffffff', '#ffb6c1', '#ffd23f', '#c8a2ff'];
+                const centerX = window.innerWidth / 2;
+                const centerY = window.innerHeight / 2;
+                const sparkCount = 42;
+                for (let i = 0; i < sparkCount; i++) {
+                    const spark = document.createElement('div');
+                    spark.className = 'firework-spark';
+                    spark.style.left = centerX + 'px';
+                    spark.style.top = centerY + 'px';
+                    spark.style.width = '7px';
+                    spark.style.height = '7px';
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    spark.style.background = color;
+                    spark.style.boxShadow = '0 0 10px ' + color;
+                    const angle = (Math.PI * 2 * i) / sparkCount + Math.random() * 0.2;
+                    const distance = Math.random() * 240 + 160;
+                    spark.style.setProperty('--tx', Math.cos(angle) * distance + 'px');
+                    spark.style.setProperty('--ty', Math.sin(angle) * distance + 'px');
+                    overlay.appendChild(spark);
+                    setTimeout(() => spark.remove(), 1400);
+                }
+            }, 250);
+
+            setTimeout(() => {
+                overlay.classList.add('fade-out');
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                    onComplete();
+                }, 550);
+            }, 1500);
+        }
+
         function runOpeningCountdown(onComplete) {
             const overlay = document.getElementById('countdownOverlay');
-            const numberEl = document.getElementById('countdownNumber');
+            const timerEl = document.getElementById('countdownTimer');
+            const daysEl = document.getElementById('cdDays');
+            const hoursEl = document.getElementById('cdHours');
+            const minutesEl = document.getElementById('cdMinutes');
+            const secondsEl = document.getElementById('cdSeconds');
             const labelEl = document.getElementById('countdownLabel');
 
-            if (!overlay || !numberEl) {
+            if (!overlay || !daysEl || !hoursEl || !minutesEl || !secondsEl) {
                 onComplete();
                 return;
             }
 
-            const steps = ['3', '2', '1', '✨'];
-            let i = 0;
+            // Target: 16 September 2026, 00:00 WIB (UTC+7)
+            const targetTime = new Date('2026-09-16T00:00:00+07:00').getTime();
 
-            function showStep() {
-                if (i >= steps.length) {
-                    overlay.classList.add('fade-out');
-                    setTimeout(() => {
-                        overlay.style.display = 'none';
-                        onComplete();
-                    }, 550);
+            function pad(n) {
+                return String(n).padStart(2, '0');
+            }
+
+            let intervalId = null;
+            let lastSecond = -1;
+            let finished = false;
+
+            function tick() {
+                const diff = targetTime - Date.now();
+
+                if (diff <= 0) {
+                    if (finished) return;
+                    finished = true;
+                    if (intervalId) clearInterval(intervalId);
+                    daysEl.textContent = '00';
+                    hoursEl.textContent = '00';
+                    minutesEl.textContent = '00';
+                    secondsEl.textContent = '00';
+                    triggerLaunchExplosion(overlay, labelEl, timerEl, onComplete);
                     return;
                 }
 
-                const isFinal = i === steps.length - 1;
-                numberEl.textContent = steps[i];
-                numberEl.classList.remove('pop');
-                void numberEl.offsetWidth; /* restart animation */
-                numberEl.classList.add('pop');
-                if (labelEl) {
-                    labelEl.textContent = isFinal ? 'Selamat malam✨' : 'Menyiapkan kejutan...';
-                }
-                playCountdownTickSound(isFinal);
+                const totalSeconds = Math.floor(diff / 1000);
+                const days = Math.floor(totalSeconds / 86400);
+                const hours = Math.floor((totalSeconds % 86400) / 3600);
+                const minutes = Math.floor((totalSeconds % 3600) / 60);
+                const seconds = totalSeconds % 60;
 
-                i++;
-                setTimeout(showStep, isFinal ? 750 : 700);
+                daysEl.textContent = pad(days);
+                hoursEl.textContent = pad(hours);
+                minutesEl.textContent = pad(minutes);
+                secondsEl.textContent = pad(seconds);
+
+                // Only pop + tick-sound the digits during the final dramatic
+                // stretch, so a multi-day wait doesn't beep every second.
+                if (seconds !== lastSecond) {
+                    lastSecond = seconds;
+                    const isFinalStretch = totalSeconds <= 10;
+                    if (isFinalStretch) {
+                        [daysEl, hoursEl, minutesEl, secondsEl].forEach(el => {
+                            el.classList.remove('pop');
+                            void el.offsetWidth; /* restart animation */
+                            el.classList.add('pop');
+                        });
+                        playCountdownTickSound(totalSeconds <= 1);
+                        if (labelEl) labelEl.textContent = 'Hampir tiba waktunya...';
+                    } else if (labelEl) {
+                        labelEl.textContent = 'Menghitung mundur ke 16 September 2026...';
+                    }
+                }
             }
 
-            showStep();
+            tick();
+            intervalId = setInterval(tick, 1000);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -3803,5 +4009,4 @@
         });
     </script>
 </body>
-
 </html>
